@@ -1,3 +1,9 @@
+import { PerspectiveCamera } from "@react-three/drei"
+import { Canvas } from "@react-three/fiber"
+import DeskObjectComponent from "../components/DeskObjectComponent"
+import { Suspense } from "react"
+import CanvasLoader from "../components/CanvasLoader"
+
 const Hero = () => {
     return (
         <section className="min-h-screen w-full flex flex-col relative">
@@ -8,7 +14,18 @@ const Hero = () => {
 
             {/* Rendering using ThreeJS */}
             <div className="w-full h-full absolute inset-0 border-2 border-blue-500">
-
+                {/* All rendering in the canvas - from react fiber library */}
+                <Canvas className="w-full h-full">
+                    <Suspense fallback={<CanvasLoader/>}>
+                        {/* Camera */}
+                        <PerspectiveCamera makeDefault position={[0,0,30]}/>
+                        {/* Objects to render */}
+                        <DeskObjectComponent scale={[0.08, 0.08, 0.08]} position={[0,-10,0]} rotation={[0, -Math.PI, 0]}/>
+                        {/* Lights */}
+                        <ambientLight intensity={1}/>
+                        <directionalLight position={[10, 10, 10]} intensity={0.5}/>
+                    </Suspense>
+                </Canvas>
             </div>
 
         </section>
